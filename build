@@ -3,7 +3,7 @@ cd /tmp/rom # Depends on where source got synced
 
 # Normal build steps
 . build/envsetup.sh
-lunch corvus_tissot-userdebug
+lunch ssos_tissot-userdebug
 export CCACHE_DIR=/tmp/ccache
 export CCACHE_EXEC=$(which ccache)
 export USE_CCACHE=1
@@ -48,7 +48,7 @@ make hiddenapi-lists-docs || echo no problem
 make system-api-stubs-docs || echo no problem
 make test-api-stubs-docs || echo no problem
 
-make corvus -j$(nproc --all) \
+make bacon -j$(nproc --all) \
 	&& send_zip=$(up out/target/product/tissot/*zip) && tg $id "Build Succeed!
 $send_zip" \
 	|| tmate -S /tmp/tmate.sock new-session -d && tmate -S /tmp/tmate.sock wait tmate-ready && send_shell=$(tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}') && tg $id "Build Failed" && tg $id "$send_shell" && ccache -s && sleep 2h
